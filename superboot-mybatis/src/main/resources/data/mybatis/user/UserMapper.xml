@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhq.superboot.repository.UserRepository">
+    <resultMap id="UserRoleResultMap"
+               type="com.lhq.superboot.domain.UserRole">
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="channel_id" jdbcType="VARCHAR"
+                property="channelId"/>
+        <result column="user_info_id" jdbcType="VARCHAR"
+                property="userInfoId"/>
+        <result column="user_name" jdbcType="VARCHAR"
+                property="userName"/>
+        <result column="password" jdbcType="VARCHAR"
+                property="password"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="nick_name" jdbcType="VARCHAR"
+                property="nickName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="wechat_id" jdbcType="VARCHAR"
+                property="wechatId"/>
+        <result column="alipay_id" jdbcType="VARCHAR"
+                property="alipayId"/>
+        <result column="create_time" jdbcType="TIMESTAMP"
+                property="createTime"/>
+        <result column="create_user" jdbcType="VARCHAR"
+                property="createUser"/>
+        <result column="modify_time" jdbcType="TIMESTAMP"
+                property="modifyTime"/>
+        <result column="modify_user" jdbcType="VARCHAR"
+                property="modifyUser"/>
+        <result column="is_enabled" jdbcType="INTEGER"
+                property="isEnabled"/>
+        <result column="is_deleted" jdbcType="INTEGER"
+                property="isDeleted"/>
+        <association property="role"
+                     javaType="com.lhq.superboot.domain.Role"
+                     resultMap="com.lhq.superboot.mapper.RoleMapper.BaseResultMap"></association>
+        <association property="channel"
+                     javaType="com.lhq.superboot.domain.Channel"
+                     resultMap="com.lhq.superboot.mapper.ChannelMapper.BaseResultMap"></association>
+    </resultMap>
+    <resultMap type="com.lhq.superboot.domain.UserManager" id="UserManagerResultMap">
+        <association property="user"
+                     javaType="com.lhq.superboot.domain.User"
+                     resultMap="com.lhq.superboot.mapper.UserMapper.BaseResultMap"></association>
+        <association property="manager"
+                     javaType="com.lhq.superboot.domain.Manager"
+                     resultMap="com.lhq.superboot.mapper.ManagerMapper.BaseResultMap"></association>
+        <association property="channel"
+                     javaType="com.lhq.superboot.domain.Channel"
+                     resultMap="com.lhq.superboot.mapper.ChannelMapper.BaseResultMap"></association>
+    </resultMap>
+    <resultMap type="com.lhq.superboot.domain.UserConsumer" id="UserConsumerResultMap">
+        <association property="user"
+                     javaType="com.lhq.superboot.domain.User"
+                     resultMap="com.lhq.superboot.mapper.UserMapper.BaseResultMap"></association>
+        <association property="consumer"
+                     javaType="com.lhq.superboot.domain.Consumer"
+                     resultMap="com.lhq.superboot.mapper.ConsumerMapper.BaseResultMap"></association>
+    </resultMap>
+
+    <select id="selectUserAndRoleByUsername"
+            resultMap="UserRoleResultMap" parameterType="string">
+        SELECT
+        u.user_id,
+        u.channel_id,
+        u.user_info_id,
+        u.user_name,
+        u.PASSWORD,
+        u.phone,
+        u.nick_name,
+        u.email,
+        u.icon,
+        u.wechat_id,
+        u.alipay_id,
+        u.create_time,
+        u.create_user,
+        u.modify_time,
+        u.modify_user,
+        u.is_enabled,
+        r.role_id,
+        r.role_name,
+        r.role_key,
+        r.role_sort,
+        r.data_scope,
+        r.is_enabled,
+        r.is_deleted,
+        c.channel_flg,
+        c.channel_name
+        FROM bus_user u
+        LEFT JOIN bus_manager m ON u.user_id = m.user_id
+        LEFT JOIN sys_role r ON r.role_id = m.role_id
+        LEFT JOIN sys_channel c ON c.channel_id = u.channel_id
+        WHERE u.user_name = #{userName,jdbcType=VARCHAR}
+        AND c.channel_flg = #{channelFlg,jdbcType=VARCHAR}
+        AND u.is_deleted = 0
+    </select>
+
+    <select id="selectWechatUserByPhone" resultMap="UserConsumerResultMap" parameterType="string">
+        select u.user_id,
+        u.channel_id,
+        u.user_info_id,
+        u.user_name,
+        u.PASSWORD,
+        u.phone,
+        u.nick_name,
+        u.email,
+        u.icon,
+        u.wechat_id,
+        u.alipay_id,
+        u.create_time,
+        u.create_user,
+        u.modify_time,
+        u.modify_user,
+        u.is_enabled,
+        co.consumer_id,
+        co.consumer_pid
+        from bus_user u
+        LEFT JOIN sys_channel c ON c.channel_id = u.channel_id
+        LEFT JOIN bus_consumer co ON u.user_id = co.user_id
+        where u.phone = #{phone,jdbcType=VARCHAR}
+        and c.channel_flg = 'XCX'
+        and u.is_deleted = 0
+
+    </select>
+
+    <select id="selectUserAndRoleByUserId"
+            resultMap="UserRoleResultMap" parameterType="string">
+        SELECT
+        u.user_id,
+        u.channel_id,
+        u.user_info_id,
+        u.user_name,
+        u.PASSWORD,
+        u.phone,
+        u.nick_name,
+        u.email,
+        u.icon,
+        u.wechat_id,
+        u.alipay_id,
+        u.create_time,
+        u.create_user,
+        u.modify_time,
+        u.modify_user,
+        u.is_enabled,
+        r.role_id,
+        r.role_name,
+        r.role_key,
+        r.role_sort,
+        r.data_scope,
+        r.is_enabled,
+        r.is_deleted,
+        c.channel_id,
+        c.channel_name,
+        c.channel_flg
+        FROM bus_user u
+        LEFT JOIN bus_manager m ON u.user_id = m.user_id
+        LEFT JOIN sys_role r ON r.role_id = m.role_id
+        LEFT JOIN sys_channel c ON c.channel_id = u.channel_id
+        WHERE u.user_id = #{userId,jdbcType=VARCHAR}
+        AND u.is_deleted = 0
+    </select>
+
+    <select id="selectManagerByPhone"
+            resultMap="com.lhq.superboot.mapper.ManagerMapper.BaseResultMap"
+            parameterType="string">
+        SELECT
+        m.company_id,
+        m.create_time,
+        m.create_user,
+        m.manager_id,
+        m.manager_type,
+        m.modify_time,
+        m.modify_user,
+        m.role_id,
+        m.user_id
+        FROM bus_user u
+        LEFT JOIN bus_manager m ON u.user_id = m.user_id
+        LEFT JOIN sys_channel c ON c.channel_id = u.channel_id
+        WHERE u.phone = #{phone,jdbcType=VARCHAR}
+        AND c.channel_flg = #{channelFlg,jdbcType=VARCHAR}
+        AND u.is_deleted = 0
+        AND u.is_enabled = 1
+    </select>
+
+    <select id="selectUserList" resultMap="UserRoleResultMap" parameterType="map">
+        SELECT
+        u.user_id,
+        u.user_name,
+        u.phone,
+        c.channel_name,
+        c.channel_flg,
+        r.role_name,
+        r.role_id
+        FROM
+        bus_user u
+        LEFT JOIN sys_channel c ON u.channel_id = c.channel_id
+        LEFT JOIN bus_manager m ON u.user_id = m.user_id
+        LEFT JOIN sys_role r ON r.role_id = m.role_id
+        WHERE
+        c.channel_flg IN
+        <foreach collection="channel" item="channelId" index="index" open="(" close=")" separator=",">
+            #{channelId,jdbcType=VARCHAR}
+        </foreach>
+        AND u.is_deleted = 0
+        AND u.is_enabled = 1
+        <if test="phone != null and phone != ''">
+            AND u.phone like CONCAT('%', #{phone,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="userName != null and userName != ''">
+            AND u.user_name like CONCAT('%', #{userName,jdbcType=VARCHAR},'%')
+        </if>
+    </select>
+
+    <select id="selectCurrentManager" resultMap="UserManagerResultMap" parameterType="string">
+        SELECT
+        u.user_id,
+        u.channel_id,
+        u.user_info_id,
+        u.user_name,
+        u.phone,
+        u.nick_name,
+        u.email,
+        u.icon,
+        m.manager_id,
+        m.company_id,
+        m.role_id,
+        m.manager_type,
+        c.channel_name,
+        c.channel_flg
+        FROM bus_user u
+        LEFT JOIN bus_manager m ON u.user_id = m.user_id
+        LEFT JOIN sys_channel c ON u.channel_id = c.channel_id
+        WHERE u.is_deleted = 0
+        AND u.is_enabled = 1
+        AND u.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectManagerList" resultMap="UserManagerResultMap" parameterType="list">
+        SELECT
+        u.user_id,
+        u.channel_id,
+        u.user_info_id,
+        u.user_name,
+        u.phone,
+        u.nick_name,
+        u.email,
+        u.icon,
+        m.manager_id,
+        m.company_id,
+        m.role_id,
+        m.manager_type
+        FROM bus_user u
+        LEFT JOIN bus_manager m ON u.user_id = m.user_id
+        WHERE u.is_deleted = 0
+        AND u.is_enabled = 1
+        AND m.manager_id in
+        <foreach collection="list" item="managerId" index="index" open="(" close=")" separator=",">
+            #{managerId,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+
+    <select id="selectCurrentConsumer" resultMap="UserConsumerResultMap" parameterType="string">
+        SELECT
+        u.user_id,
+        u.channel_id,
+        u.user_info_id,
+        u.user_name,
+        u.phone,
+        u.nick_name,
+        u.email,
+        u.icon,
+        c.consumer_id,
+        c.consumer_pid
+        FROM bus_user u
+        LEFT JOIN bus_consumer c ON u.user_id = c.user_id
+        WHERE u.is_deleted = 0
+        AND u.is_enabled = 1
+        AND u.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectUserByRoleResId" resultType="string" parameterType="string">
+        select u.user_id
+        from bus_user u LEFT JOIN bus_manager m on u.user_id = m.user_id
+        LEFT JOIN sys_role_resource r on m.role_id = r.role_id
+        WHERE r.role_res_id = #{roleResId,jdbcType=VARCHAR}
+        AND u.is_deleted = 0
+        AND u.is_enabled = 1
+    </select>
+
+</mapper>

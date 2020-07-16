@@ -1,0 +1,8 @@
+# 对外接口参数
+api:
+  version: "1.0"
+  cacheKey: "lhq:superboot:api:execcache:"
+  cacheTime: 3600
+  formatArr:
+    - json
+    - xml

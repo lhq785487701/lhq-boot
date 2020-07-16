@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhq.superboot.repository.UserTokenRepository">
+
+    <select id="getUserTokenByUserId" parameterType="string" resultType="long">
+        SELECT t.token_total
+        FROM bus_user u LEFT JOIN bus_user_token t ON u.user_token_id = t.user_token_id
+        WHERE u.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateUserTokenByUserId" parameterType="map">
+        UPDATE bus_user u LEFT JOIN bus_user_token t ON u.user_token_id = t.user_token_id
+        SET t.token_total = token_total + #{token,jdbcType=INTEGER}
+        WHERE u.user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+</mapper>

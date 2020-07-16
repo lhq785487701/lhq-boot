@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhq.superboot.repository.AddrRepository">
+
+    <!-- 更换用户默认地址 -->
+    <update id="updateUserDefaultAdrr" parameterType="map">
+        UPDATE bus_user_delivery_address
+        SET default_use = (CASE addr_id
+        WHEN #{addrId,jdbcType=VARCHAR} THEN
+        1
+        ELSE
+        0
+        END
+        )
+        WHERE user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->
+    <!-- appender是configuration的子节点，是负责写日志的组件。 -->
+    <!-- ConsoleAppender：把日志输出到控制台 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- <pattern>%d %p (%file:%line\)- %m%n</pattern> -->
+            <pattern>%msg%n</pattern>
+            <!-- 控制台也要使用UTF-8，不要使用GBK，否则会中文乱码 -->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 控制台输出日志级别 -->
+    <root level="info">
+        <appender-ref ref="console"/>
+    </root>
+    <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
+    <!-- com.lhq.superboot为根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG -->
+    <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
+    <logger name="com.lhq.superboot" level="debug"/>
+
+    <!-- 日志过滤 -->
+    <!-- Spring 日志过滤 -->
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.springframework.boot" level="ERROR"/>
+    <logger name="springfox.documentation" level="ERROR"/>
+
+    <!-- Mybatis 日志过滤 -->
+    <logger name="com.ibatis" level="DEBUG"/>
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG"/>
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG"/>
+    <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>
+    <logger name="org.mybatis" level="ERROR"/>
+    <logger name="org.apache.ibatis" level="ERROR"/>
+    <logger name="com.baomidou.mybatisplus" level="ERROR"/>
+
+    <!-- druid 日志过滤 -->
+    <logger name="druid.sql" level="ERROR"/>
+    <logger name="druid.sql.DataSource" level="ERROR"/>
+    <logger name="druid.sql.Connection" level="ERROR"/>
+    <logger name="druid.sql.Statement" level="ERROR"/>
+    <logger name="druid.sql.ResultSet" level="ERROR"/>
+    <logger name="com.alibaba.druid" level="ERROR"/>
+    <!-- dubbo 日志过滤 -->
+    <logger name="com.alibaba.dubbo" level="INFO"/>
+    <logger name="com.alibaba.dubbo.common" level="INFO"/>
+    <logger name="org.apache.dubbo" level="INFO"/>
+    <logger name="com.alibaba" level="INFO"/>
+
+    <!-- zookeeper 日志过滤 -->
+    <logger name="org.apache.zookeeper.ClientCnxn" level="ERROR"/>
+    <logger name="org.apache.zookeeper" level="ERROR"/>
+    <logger name="org.I0Itec" level="INFO"/>
+
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="org.jboss" level="ERROR"/>
+
+    <logger name="com.reger" level="ERROR"/>
+    <logger name="com.zaxxer.hikari" level="INFO"/>
+    <logger name="io.lettuce" level="ERROR"/>
+
+    <!-- shiro -->
+    <logger name="org.apache.shiro" level="INFO"/>
+
+    <logger name="io.netty" level="INFO"/>
+    <logger name="com.netflix" level="INFO"/>
+
+</configuration>

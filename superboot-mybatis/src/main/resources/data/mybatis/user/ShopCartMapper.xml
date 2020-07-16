@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhq.superboot.repository.ShopCartRepository">
+
+
+    <select id="selectGoodsMsgByItemsId" resultType="com.lhq.superboot.dto.ShopCartDto" parameterType="list">
+        SELECT
+        gd.goods_id,
+        gd.goods_code,
+        gd.goods_desc,
+        gd.goods_name,
+        gd.goods_categories,
+        gd.icon_image,
+        gi.goods_items_name,
+        gi.goods_items_id,
+        gi.goods_items_code,
+        gi.sale_price,
+        gi.token_total,
+        if(gi.is_online = 0 || gd.is_online = 0, 0, 1) is_online,
+        if(gi.is_delete = 1 || gd.is_deleted =1, 1, 0) is_deleted
+        FROM
+        bus_goods_items gi
+        LEFT JOIN bus_goods gd ON gd.goods_id = gi.goods_id
+        WHERE
+        gi.goods_items_id IN
+        <foreach collection="list" item="goods_items_id" index="index" open="(" close=")" separator=",">
+            #{goods_items_id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+</mapper>

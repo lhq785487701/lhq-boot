@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhq.superboot.mapper.OfficialMenuMapper">
+    <resultMap id="BaseResultMap" type="com.lhq.superboot.domain.OfficialMenu">
+        <id column="menu_id" jdbcType="VARCHAR" property="menuId"/>
+        <result column="menu_pid" jdbcType="VARCHAR" property="menuPid"/>
+        <result column="menu_type" jdbcType="VARCHAR" property="menuType"/>
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
+        <result column="menu_key" jdbcType="VARCHAR" property="menuKey"/>
+        <result column="menu_url" jdbcType="VARCHAR" property="menuUrl"/>
+        <result column="media_id" jdbcType="VARCHAR" property="mediaId"/>
+        <result column="appid" jdbcType="VARCHAR" property="appid"/>
+        <result column="pagepath" jdbcType="VARCHAR" property="pagepath"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        menu_id, menu_pid, menu_type, menu_name, menu_key, menu_url, media_id, appid, pagepath
+    </sql>
+    <select id="selectByExample" parameterType="com.lhq.superboot.domain.OfficialMenuExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from wx_official_menu
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from wx_official_menu
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from wx_official_menu
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.lhq.superboot.domain.OfficialMenuExample">
+        delete from wx_official_menu
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.lhq.superboot.domain.OfficialMenu">
+        <selectKey keyProperty="menuId" order="BEFORE" resultType="java.lang.String">
+            select REPLACE(uuid(),'-','')
+        </selectKey>
+        insert into wx_official_menu (menu_id, menu_pid, menu_type,
+        menu_name, menu_key, menu_url,
+        media_id, appid, pagepath
+        )
+        values (#{menuId,jdbcType=VARCHAR}, #{menuPid,jdbcType=VARCHAR}, #{menuType,jdbcType=VARCHAR},
+        #{menuName,jdbcType=VARCHAR}, #{menuKey,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR},
+        #{mediaId,jdbcType=VARCHAR}, #{appid,jdbcType=VARCHAR}, #{pagepath,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.lhq.superboot.domain.OfficialMenu">
+        <selectKey keyProperty="menuId" order="BEFORE" resultType="java.lang.String">
+            select REPLACE(uuid(),'-','')
+        </selectKey>
+        insert into wx_official_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            menu_id,
+            <if test="menuPid != null">
+                menu_pid,
+            </if>
+            <if test="menuType != null">
+                menu_type,
+            </if>
+            <if test="menuName != null">
+                menu_name,
+            </if>
+            <if test="menuKey != null">
+                menu_key,
+            </if>
+            <if test="menuUrl != null">
+                menu_url,
+            </if>
+            <if test="mediaId != null">
+                media_id,
+            </if>
+            <if test="appid != null">
+                appid,
+            </if>
+            <if test="pagepath != null">
+                pagepath,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{menuId,jdbcType=VARCHAR},
+            <if test="menuPid != null">
+                #{menuPid,jdbcType=VARCHAR},
+            </if>
+            <if test="menuType != null">
+                #{menuType,jdbcType=VARCHAR},
+            </if>
+            <if test="menuName != null">
+                #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuKey != null">
+                #{menuKey,jdbcType=VARCHAR},
+            </if>
+            <if test="menuUrl != null">
+                #{menuUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="mediaId != null">
+                #{mediaId,jdbcType=VARCHAR},
+            </if>
+            <if test="appid != null">
+                #{appid,jdbcType=VARCHAR},
+            </if>
+            <if test="pagepath != null">
+                #{pagepath,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.lhq.superboot.domain.OfficialMenuExample"
+            resultType="java.lang.Long">
+        select count(*) from wx_official_menu
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update wx_official_menu
+        <set>
+            <if test="record.menuId != null">
+                menu_id = #{record.menuId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.menuPid != null">
+                menu_pid = #{record.menuPid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.menuType != null">
+                menu_type = #{record.menuType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.menuName != null">
+                menu_name = #{record.menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.menuKey != null">
+                menu_key = #{record.menuKey,jdbcType=VARCHAR},
+            </if>
+            <if test="record.menuUrl != null">
+                menu_url = #{record.menuUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mediaId != null">
+                media_id = #{record.mediaId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.appid != null">
+                appid = #{record.appid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.pagepath != null">
+                pagepath = #{record.pagepath,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update wx_official_menu
+        set menu_id = #{record.menuId,jdbcType=VARCHAR},
+        menu_pid = #{record.menuPid,jdbcType=VARCHAR},
+        menu_type = #{record.menuType,jdbcType=VARCHAR},
+        menu_name = #{record.menuName,jdbcType=VARCHAR},
+        menu_key = #{record.menuKey,jdbcType=VARCHAR},
+        menu_url = #{record.menuUrl,jdbcType=VARCHAR},
+        media_id = #{record.mediaId,jdbcType=VARCHAR},
+        appid = #{record.appid,jdbcType=VARCHAR},
+        pagepath = #{record.pagepath,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lhq.superboot.domain.OfficialMenu">
+        update wx_official_menu
+        <set>
+            <if test="menuPid != null">
+                menu_pid = #{menuPid,jdbcType=VARCHAR},
+            </if>
+            <if test="menuType != null">
+                menu_type = #{menuType,jdbcType=VARCHAR},
+            </if>
+            <if test="menuName != null">
+                menu_name = #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuKey != null">
+                menu_key = #{menuKey,jdbcType=VARCHAR},
+            </if>
+            <if test="menuUrl != null">
+                menu_url = #{menuUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="mediaId != null">
+                media_id = #{mediaId,jdbcType=VARCHAR},
+            </if>
+            <if test="appid != null">
+                appid = #{appid,jdbcType=VARCHAR},
+            </if>
+            <if test="pagepath != null">
+                pagepath = #{pagepath,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lhq.superboot.domain.OfficialMenu">
+        update wx_official_menu
+        set menu_pid = #{menuPid,jdbcType=VARCHAR},
+        menu_type = #{menuType,jdbcType=VARCHAR},
+        menu_name = #{menuName,jdbcType=VARCHAR},
+        menu_key = #{menuKey,jdbcType=VARCHAR},
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+        media_id = #{mediaId,jdbcType=VARCHAR},
+        appid = #{appid,jdbcType=VARCHAR},
+        pagepath = #{pagepath,jdbcType=VARCHAR}
+        where menu_id = #{menuId,jdbcType=VARCHAR}
+    </update>
+</mapper>

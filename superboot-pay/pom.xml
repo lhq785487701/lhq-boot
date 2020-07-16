@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.lhq</groupId>
+        <artifactId>superboot</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>superboot-pay</artifactId>
+    <name>superboot-pay</name>
+    <description>支付模块</description>
+
+    <dependencies>
+        <!-- superboot -->
+        <dependency>
+            <groupId>com.lhq</groupId>
+            <artifactId>superboot-mybatis</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lhq</groupId>
+            <artifactId>superboot-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lhq</groupId>
+            <artifactId>superboot-wechat-pay</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+</project>

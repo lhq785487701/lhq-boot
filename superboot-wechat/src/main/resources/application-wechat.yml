@@ -1,0 +1,62 @@
+# 微信
+wechat:
+  # 小程序
+  miniProgram:
+    # 小程序id
+    #appid: xxx
+    appid: xxxx
+    # 商户号
+    mchid: xxxx
+    # 秘钥 
+    #secret: xxx
+    secret: xxxx
+    # api秘钥
+    apiKey: xxxx
+    grantType: authorization_code
+    # 签名方式MD5/HMAC-SHA256
+    signType: MD5
+    # 终端Ip(此为备用IP、暂无使用)
+    spbillCreateIp: 10.10.10.101
+    # 交易类型
+    tradeType: JSAPI
+    # 标价币种
+    feeType: CNY
+    # 登录凭证校验
+    authUrl: https://api.weixin.qq.com/sns/jscode2session
+    # 统一下单(商户在小程序中先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易后调起支付。)
+    unifiedOrderUrl: https://api.mch.weixin.qq.com/pay/unifiedorder
+    # 通知地址(根据业务不同，为真实业务地址、暂无使用)
+    notifyUrl: https://www.xxxx.com/superboot/wx/notify
+    # 查询订单
+    queryOrderUrl: https://api.mch.weixin.qq.com/pay/orderquery
+    # 关闭订单
+    closeOrderUrl: https://api.mch.weixin.qq.com/pay/closeorder
+    # 申请退款
+    refundUrl: https://api.mch.weixin.qq.com/secapi/pay/refund
+    # 查询退款
+    refundQueryUrl: https://api.mch.weixin.qq.com/pay/refundquery
+    # 微信下单时，将订单信息记录缓存前缀key
+    wechatOrderKey: "lhq:superboot:wechat:order:msg:"
+    # 微信下单时，将订单信息记录缓存的过期时间(记录两天)
+    wechatOrderExpire: 172800
+  # 公众号
+  official:
+    # token令牌
+    token: myOfficial
+    # 获取access_token
+    grantType: client_credential
+    # access_token存放的位置
+    accessTokenKey: "lhq:superboot:wechat:access_token"
+    # 获取access_token地址
+    accessTokenUrl: https://api.weixin.qq.com/cgi-bin/token
+    # 创建菜单
+    createMenuUrl: https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN
+    # 删除菜单
+    deleteMenuUrl: https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN
+    # 查询菜单
+    queryMenuUrl: https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN
+    # 获取用户基本信息
+    queryPersonMsgUrl: https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+    
+    
+  

@@ -1,0 +1,29 @@
+# 阿里短信相关
+alibaba:
+  # 阿里key与Secret
+  accessKeyId: xxxx
+  accessKeySecret: xxxxxx
+  # 固定属性地区
+  regionId: default
+  sms:
+    domain: dysmsapi.aliyuncs.com
+    signName: xxxxx
+    version: 2017-05-25
+    # 发送短信相关参数
+    send:
+      sendSms: SendSms
+      sendBatchSms: SendBatchSms
+      # 参数名，可在阿里云设置
+      paramCode: code
+      paramContent: content
+      paramName: name
+      paramCount: count
+      # 默认手机验证码公共模块
+      publicTemplateCode: SMS_164950027
+      # 默认赠送用户卡券通知模板
+      giveCardTemplateCode: SMS_167960821
+      # 创建ht用户通知
+      notifyUserCode: SMS_168306054
+    # 查询短信信息相关参数
+    query:
+      queryCode: QuerySendDetails

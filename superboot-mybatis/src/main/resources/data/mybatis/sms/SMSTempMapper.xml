@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lhq.superboot.repository.SMSTemplateRepository">
+    <resultMap id="BaseResultMap" type="com.lhq.superboot.domain.SMSTemplate">
+        <id column="template_id" jdbcType="VARCHAR" property="templateId"/>
+        <result column="template_name" jdbcType="VARCHAR" property="templateName"/>
+        <result column="template_code" jdbcType="VARCHAR" property="templateCode"/>
+        <result column="template_type" jdbcType="VARCHAR" property="templateType"/>
+        <result column="template_state" jdbcType="INTEGER" property="templateState"/>
+        <result column="template_content" jdbcType="VARCHAR" property="templateContent"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="modify_user" jdbcType="VARCHAR" property="modifyUser"/>
+        <result column="is_enabled" jdbcType="INTEGER" property="isEnabled"/>
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted"/>
+    </resultMap>
+    <resultMap id="TemplateResultMap" type="com.lhq.superboot.vo.SMSTemplateVo">
+        <id column="template_id" jdbcType="VARCHAR" property="templateId"/>
+        <result column="template_name" jdbcType="VARCHAR" property="templateName"/>
+        <result column="template_code" jdbcType="VARCHAR" property="templateCode"/>
+        <result column="template_type" jdbcType="VARCHAR" property="templateType"/>
+        <result column="template_state" jdbcType="INTEGER" property="templateState"/>
+        <result column="template_content" jdbcType="VARCHAR" property="templateContent"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="is_default" jdbcType="INTEGER" property="isDefault"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+    </resultMap>
+
+    <select id="selectUserTemplate" resultMap="TemplateResultMap" parameterType="map">
+        SELECT
+        st.template_id,
+        st.template_name,
+        st.template_code,
+        st.template_type,
+        st.template_content,
+        st.remark,
+        st.template_state,
+        ust.is_default,
+        ust.user_id
+        FROM
+        bus_user_sms_temp ust
+        LEFT JOIN bus_sms_template st ON ust.template_id = st.template_id
+        WHERE
+        st.is_deleted = 0
+        and st.is_enabled = 1
+        and st.template_state = 1
+        and (ust.user_id = #{userId,jdbcType=VARCHAR}
+        <if test="companyId != null">
+            OR ust.company_id = #{companyId,jdbcType=VARCHAR}
+        </if>)
+    </select>
+
+    <!-- 更换用户默认地址 -->
+    <update id="updateUserDefaultTemplate" parameterType="map">
+        UPDATE bus_user_sms_temp
+        SET is_default = (CASE template_id
+        WHEN #{templateId,jdbcType=VARCHAR} THEN
+        1
+        ELSE
+        0
+        END
+        )
+        WHERE user_id = #{userId,jdbcType=VARCHAR}
+        AND template_type = #{templateType,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.lhq</groupId>
+        <artifactId>superboot</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>superboot-rocketmq</artifactId>
+    <name>superboot-rocketmq</name>
+    <description>rocket消息队列</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>3.2.6</version>
+        </dependency>
+    </dependencies>
+
+</project>

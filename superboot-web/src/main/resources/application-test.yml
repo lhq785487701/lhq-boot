@@ -1,0 +1,11 @@
+# 服务配置
+server:
+  port: 9080
+  servlet:
+    context-path: /superboot
+
+spring:
+  # 读取配置文件
+  profiles:
+    include: redis-test,logging,exception,mysql-test,mybatis,mongo,elasticsearch,shiro,wechat,sms,common
+    
